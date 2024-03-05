@@ -2,6 +2,7 @@
   <div class="container">
     <h1>Welcome, User</h1>
     <br />
+    <h3>HOW TO USE</h3>
     <button class="logout" @click="Logout">Logout</button>
   </div>
 </template>
