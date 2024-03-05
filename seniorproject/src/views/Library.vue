@@ -1,7 +1,11 @@
 <!-- Add Google search -->
 
 <template>
-  <div class="title">
+  <div>
+    <h1>Google Search</h1>
+    <GoogleSearch />
+  </div>
+  <!-- <div class="title">
     <h1>Resource Library</h1>
     <ResourceItemComponent v-for="resource in resources">
       <template v-slot:resourceTitle>
@@ -33,9 +37,16 @@
 
       <button :disabled="formIncomplete" type="submit">Add New Resource</button>
     </form>
-  </div>
+  </div> -->
+  
 </template>
 
 <script>
-import ResourceItemComponent from '../components/RersourceItemComponent.vue'
+import GoogleSearch from '../components/GoogleSearch.vue';
+
+export default {
+  components: {
+    GoogleSearch
+  }
+}
 </script>
