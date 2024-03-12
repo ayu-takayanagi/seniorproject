@@ -1,14 +1,17 @@
 <template>
   <div class="header">
-    <nav>
+    <header class="logo">KIRINUKI</header>
+    <nav class="navbar1">
       <router-link to="/" class="navlink">Home</router-link>
       <router-link to="/library" class="navlink">Library</router-link>
       <router-link to="/record" class="navlink">Record</router-link>
       <router-link to="/monthlyreport" class="navlink"
         >Monthly Report</router-link
       >
-      <router-link to="/login" class="navlink">Login</router-link>
-      <router-link to="/register" class="navlink">Register</router-link>
+    </nav>
+    <nav class="navbar2">
+      <router-link to="/login" class="navlink2">Login</router-link><span>/</span>
+      <router-link to="/register" class="navlink2">Register</router-link>
     </nav>
   </div>
   <router-view />
@@ -45,17 +48,51 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
-nav {
-  width: 100%;
-  height: 70px;
-  background-color: #597e52;
-  text-align: right;
+.logo{
+  color: #597e52;
+  font-size: 50px;
+  font-weight: 800;
+  /* margin-top: 20px; */
+  margin-left: 20px;
+  margin-right: 200px;
+  width: 150px;
 }
 
-.navlink {
-  margin-right: 30px;
-  color: #ffffec;
+header{
+  display: inline-block;
+  width: 1200px;
+  margin-top: 50px;
+}
+.navlink, .header {
+  margin-right: 15px;
+  margin-left: 15px;
   font-weight: 500;
   font-size: 20px;
+  color: #597e52;
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.navlink2{
+  color: #ffffec;
+  margin-right: 15px;
+  margin-left: 15px;
+
+}
+
+.navbar1 {
+  text-align: center;
+  color: #597e52;
+  margin-top: 70px;
+  padding-right: 100px;
+}
+.navbar2{
+  text-align: center;
+  width: 200px;
+  height: 40px;
+  background: #597e52;
+  border-radius: 20px;
+  color: #ffffec;
+  margin-top: 70px;
 }
 </style>

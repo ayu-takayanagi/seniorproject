@@ -69,7 +69,7 @@
 
 <script>
 import { collection, addDoc, onSnapshot, doc, deleteDoc, query, where } from 'firebase/firestore'; // Import Firestore functionalities
-import { db } from '../firebase/init.js';
+import db from '../main.js';
 // import SearchBar from '../components/SearchBar.vue'; 
 // import ResultSet from '../components/ResultSet.vue'; 
 // var axios = require('axios');
