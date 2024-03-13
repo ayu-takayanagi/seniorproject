@@ -2,7 +2,7 @@
 
 <template>
   <div class="description">
-    <h1>Resource Library</h1>
+    <h2>Resource Library</h2>
     <p>Here's the place to find an article through Google</p>
     <p>If you want to keep a resource, you can add category name and resource information below!</p>
   </div>
@@ -201,11 +201,13 @@ export default {
 .description{
   text-align: center;
   margin-top: 50px;
-  border: 1mm solid #597e52;
-  border-radius: 30px;
+  background-color: #F1E4C3;
   margin-right: 10%;
   margin-left: 10%;
   margin-bottom: 90px;
+  height: 200px;
+  padding-top: 10px;
+  border-radius: 20px;;
 }
 
 .google{
@@ -213,10 +215,6 @@ export default {
   margin-top: 50px;
 }
 
-.google-search {
-  margin-bottom: 20px;
-  text-align: center;
-}
 .search-results {
   border: 1px solid #ccc;
   padding: 10px;
