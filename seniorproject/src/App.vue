@@ -10,19 +10,23 @@
       >
     </nav>
     <nav class="navbar2">
-      <router-link to="/login" class="navlink2">Login</router-link><span>/</span>
+      <router-link to="/login" class="navlink2">Login</router-link
+      ><span>/</span>
       <router-link to="/register" class="navlink2">Register</router-link>
     </nav>
   </div>
   <router-view />
+  <Footer />
 </template>
 
 <script>
 import { onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import firebase from "firebase/compat/app";
+import Footer from "./components/Footer.vue";
 
 export default {
+  components: [Footer],
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -48,7 +52,7 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
-.logo{
+.logo {
   color: #597e52;
   font-size: 50px;
   font-weight: 800;
@@ -58,12 +62,13 @@ body {
   width: 150px;
 }
 
-header{
+header {
   display: inline-block;
   width: 1200px;
   margin-top: 50px;
 }
-.navlink, .header {
+.navlink,
+.header {
   margin-right: 15px;
   margin-left: 15px;
   font-weight: 500;
@@ -73,11 +78,10 @@ header{
   justify-content: space-between;
 }
 
-.navlink2{
+.navlink2 {
   color: #ffffec;
   margin-right: 15px;
   margin-left: 15px;
-
 }
 
 .navbar1 {
@@ -86,7 +90,7 @@ header{
   margin-top: 70px;
   padding-right: 100px;
 }
-.navbar2{
+.navbar2 {
   text-align: center;
   width: 200px;
   height: 40px;
