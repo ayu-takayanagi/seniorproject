@@ -7,9 +7,7 @@
       <div class="underTitle">
         <div class="container2">
           <h2>READY TO LEARN SOMETHING NEW?</h2>
-          <h3>HOW TO USE</h3>
           <p>
-            Welcome to KIRINUKI! Are you new to this web app? <br />
             I will take you to the instructions below!
           </p>
           <p>1. Decide what you want to learn this week</p>
@@ -30,9 +28,25 @@
     </div>
   </div>
 
-  <div class="weeklyTopic">
-    <h2>Weekly Topic</h2>
-    <p id="date">This week (2024/3/10 - 2024/3/16)</p>
+
+  <div>
+    <h2>Weekly Topics</h2>
+    <form class="weeklyTopicForm" @submit.prevent="addWeeklyTopic">
+      <label for="date">Date:</label>
+      <input type="date" id="date" v-model="newTopic.date" required>
+      <label for="topic">Topic:</label>
+      <input type="text" id="topic" v-model="newTopic.topic" required>
+      <button type="submit">Add Topic</button>
+    </form>
+
+    <div v-if="weeklyTopics.length > 0">
+      <h2>Previous Weekly Topics</h2>
+      <ul>
+        <li v-for="topic in weeklyTopics" :key="topic.id">
+          <strong>{{ topic.date }}:</strong> {{ topic.topic }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -40,9 +54,46 @@
 import { ref, onBeforeMount } from "vue";
 import firebase from "firebase/compat/app";
 import Footer from "../components/Footer.vue";
+import { collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
+import { db } from '../firebase/init.js';
 
 export default {
   components: [Footer],
+  data() {
+    return {
+      newTopic: {
+        date: '',
+        topic: ''
+      },
+      weeklyTopics: []
+    };
+  },
+  
+  async mounted(){
+    this.fetchWeeklyTopics();
+  },
+
+  methods: {
+    async addWeeklyTopic() {
+      try {
+        await addDoc(collection(db, 'weeklyTopics'), this.newTopic);
+        this.newTopic.date = '';
+        this.newTopic.topic = '';
+        this.fetchWeeklyTopics();
+      } catch (error) {
+        console.error('Error adding weekly topic:', error);
+      }
+    },
+    async fetchWeeklyTopics() {
+      try {
+        const querySnapshot = await getDocs(query(collection(db, 'weeklyTopics'), orderBy('date', 'desc')));
+        this.weeklyTopics = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error('Error fetching weekly topics:', error);
+      }
+    }
+  },
+
   setup() {
     const name = ref("");
 
@@ -81,15 +132,23 @@ export default {
 
 .underTitle {
   background-color: #f1e4c3;
-  height: 450px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+  margin-top: 3%;;
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 40px;
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 25px;
+}
+
+p{
+  font-weight:600;
 }
 .title {
   text-align: center;
@@ -107,7 +166,7 @@ h2 {
 }
 img {
   height: 400px;
-  margin-left: 8%;
+  margin-right: 200px;
 }
 .logout {
   margin-top: 80px;
@@ -118,6 +177,9 @@ img {
   justify-content: center;
 }
 .weeklyTopic {
+  text-align: center;
+}
+.weeklyTopicForm{
   text-align: center;
 }
 </style>
