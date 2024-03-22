@@ -3,10 +3,13 @@
 <template>
   <div class="description">
     <h2>Resource Library</h2>
-    <p>Here's the place to find an article through Google</p>
+    <p>
+      Do you need to find an article for today? Please use the Google serach bar
+      on the top of this page.
+    </p>
     <p>
       If you want to keep a resource, you can add category name and resource
-      information below!
+      information below! Those will be displayed below based on a category.
     </p>
   </div>
 
@@ -61,9 +64,13 @@
         {{
           category.name
         }}
+        <!-- <button @click="editCategory(category)">Edit Category</button> -->
         <button @click="deleteCategory(category.id)">Delete Category</button>
         <ul v-for="resource in category.resources" :key="resource.id">
           <a :href="resource.link">{{ resource.title }}</a>
+          <!-- <button @click="editResource(category, resource)">
+            Edit Resource
+          </button> -->
           <button @click="deleteResource(category.id, resource.id)">
             Delete Resource
           </button>
@@ -95,6 +102,11 @@ export default {
       categories: [], // Initialize categories array to store fetched data
       query: "",
       searchResults: [],
+      editingCategory: null, // Store the ID of the category being edited
+      editingResource: null, // Store the ID of the resource being edited
+      editedCategoryName: "", // Store the new category name during editing
+      editedResourceTitle: "", // Store the new resource title during editing
+      editedResourceLink: "", // Store the new resource link during editing
     };
   },
 
@@ -110,7 +122,7 @@ export default {
         };
         categories.push(category); // Push category to categories array
       });
-      this.categories = categories; // Update the component's categories data property with the fetched data
+      this.categories = categories.sort((a, b) => a.name.localeCompare(b.name));
 
       // Fetch resources for each category
       categories.forEach((category) => {
@@ -132,7 +144,9 @@ export default {
           const index = this.categories.findIndex(
             (cat) => cat.id === category.id
           );
-          this.categories[index].resources = resources;
+          this.categories[index].resources = resources.sort((a, b) =>
+            a.title.localeCompare(b.title)
+          ); // Sort resources alphabetically
         });
       });
     });
@@ -172,6 +186,40 @@ export default {
     // Delete resource
     async deleteResource(categoryId, resourceId) {
       await deleteDoc(doc(db, "resource", resourceId));
+    },
+    // Edit category
+    async editCategory(category) {
+      this.editingCategory = category.id;
+      this.editedCategoryName = category.name;
+    },
+    // Save edited category
+    async saveEditedCategory() {
+      await updateDoc(doc(db, "category", this.editingCategory), {
+        name: this.editedCategoryName,
+      });
+      this.editingCategory = null;
+    },
+    // Cancel editing category
+    cancelEditCategory() {
+      this.editingCategory = null;
+    },
+    // Edit resource
+    async editResource(category, resource) {
+      this.editingResource = resource.id;
+      this.editedResourceTitle = resource.title;
+      this.editedResourceLink = resource.link;
+    },
+    // Save edited resource
+    async saveEditedResource(category, resource) {
+      await updateDoc(doc(db, "resource", resource.id), {
+        title: this.editedResourceTitle,
+        link: this.editedResourceLink,
+      });
+      this.editingResource = null;
+    },
+    // Cancel editing resource
+    cancelEditResource() {
+      this.editingResource = null;
     },
   },
 };
